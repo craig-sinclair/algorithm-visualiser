@@ -70,8 +70,12 @@ const GraphVisualiser = ({title, algorithm, placeholder}) => {
     return(
 
     <div>
-        <nav classname='alg-nav'>
-        <Link to='/'><button>Return Home</button></Link>
+        <nav className='alg-nav'>
+
+        <div className='return-button-div'>
+            <Link to='/'><button>Return Home</button></Link>
+        </div>
+
         <h1 className='alg-title'>{title}</h1>
         </nav>
 

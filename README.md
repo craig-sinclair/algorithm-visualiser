@@ -3,4 +3,5 @@
 React web-application to visualise algorithms operations.
 
 #### Currently Implemented:
-- BFS (Breadth-First Search) algorithm, including selection of starting node
+- BFS (Breadth-First Search) algorithm
+- DFS (Depth-First Search) algorithm

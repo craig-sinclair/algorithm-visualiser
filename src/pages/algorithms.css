@@ -5,6 +5,16 @@
 .alg-nav{
     margin: 0px;
     padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.return-button-div{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
 }
 
 .graph-elemenet{
@@ -40,6 +50,10 @@ p{
     align-items: center;
     gap: 20px;
     margin-top: 0.5em;
+}
+
+.control-buttons:focus, .control-buttons:focus-visible{
+    outline: 4px auto -webkit-focus-ring-color;
 }
 
 nav{
