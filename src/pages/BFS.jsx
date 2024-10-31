@@ -69,7 +69,8 @@ const BFS = () => {
 
     <div>
         <nav>
-        <h1 className='alg-title'>BFS Visualiser</h1>
+            
+            <h1 className='alg-title'>BFS Visualiser</h1>
 
         </nav>
 
