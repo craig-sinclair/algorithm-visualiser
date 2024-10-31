@@ -1,14 +1,15 @@
 import React from 'react';
 import GraphVisualiser from '../components/Visualiser';
-import { bfsAlgorithm } from '../utils/bfsAlgorithm';
+import { dfsAlgorithm } from '../utils/dfsAlgorithm';
 
-const BFS = () => {
+const DFS = () => {
     return(
         <GraphVisualiser
-        title="BFS Visualiser"
-        algorithm={bfsAlgorithm}
+        title="DFS Visualiser"
+        algorithm={dfsAlgorithm}
         placeholder="0"
         />
     )
+
 }
-export default BFS;
+export default DFS;

@@ -2,12 +2,17 @@
     text-align: center;
 }
 
+.alg-nav{
+    margin: 0px;
+    padding: 0px;
+}
+
 .graph-elemenet{
     display: flex;
     align-items: center;
+    margin-top: -30px;
     justify-content: center;
     gap: 0;
-
 }
 
 #start-node{
@@ -21,7 +26,7 @@
     flex-direction: row;
     gap: 10px;
     justify-content: center;
-    margin-top: 1em;
+    margin-top: 0.5em;
 }
 
 p{
@@ -34,5 +39,12 @@ p{
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin-top: 2em;
+    margin-top: 0.5em;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
 }
