@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../pages/home.css';
@@ -41,7 +41,8 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
     const [edges] = useState(weighted ? initialWeightedEdges : initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [nodes] = useState(initialNodes);
-    const [startingNode, setStartingNode] = useState(0);
+    const [startingNode, setStartingNode] = useState(0);   
+    const timeoutIds = useRef([]); 
     
     const handleStartNodeChange = (e) => {
         setStartingNode(e.target.value);
@@ -65,11 +66,20 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
         }
 
         const steps = algorithm(nodes, edges, startNodeId);
+
         steps.forEach((step, index) => {
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 setHighlightedNodes(step);
             }, index * 1000);
+            
+            timeoutIds.current.push(timeoutId); 
         });
+    };
+
+    const handleReset = () => {
+        timeoutIds.current.forEach(timeoutId => clearTimeout(timeoutId));
+        timeoutIds.current = []; 
+        setHighlightedNodes([]); 
     };
 
     return (
@@ -95,12 +105,10 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
                 />
             </div>
 
-            <Controls onPlay={handlePlay} onPause={() => {}} onReset={() => setHighlightedNodes([])} />
+            <Controls onPlay={handlePlay} onPause={() => {}} onReset={handleReset} />
         </div>
     );
 };
-
-export default GraphVisualiser;
 
 GraphVisualiser.propTypes = {
     title: PropTypes.string.isRequired,
@@ -113,3 +121,5 @@ GraphVisualiser.defaultProps = {
     placeholder: '0',
     weighted: false
 };
+
+export default GraphVisualiser;
