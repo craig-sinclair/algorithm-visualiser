@@ -1,38 +1,46 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom'
-
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import '../pages/home.css';
 import Graph from './Graph';
 import Controls from './Controls';
 import '../pages/algorithms.css';
 
-
-const GraphVisualiser = ({title, algorithm, placeholder}) => {
+const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
     const initialNodes = [
-    { id: 0, x: 300, y: 50 },    
-    { id: 1, x: 150, y: 200 },   
-    { id: 2, x: 300, y: 200 },
-    { id: 3, x: 450, y: 200 },
-    { id: 4, x: 50, y: 350 },
-    { id: 5, x: 250, y: 350 },
-    { id: 6, x: 400, y: 350 },
-    { id: 7, x: 550, y: 350 },
+        { id: 0, x: 300, y: 50 },    
+        { id: 1, x: 150, y: 200 },   
+        { id: 2, x: 300, y: 200 },
+        { id: 3, x: 450, y: 200 },
+        { id: 4, x: 50, y: 350 },
+        { id: 5, x: 250, y: 350 },
+        { id: 6, x: 400, y: 350 },
+        { id: 7, x: 550, y: 350 },
     ];
 
     const initialEdges = [
-    { source: initialNodes[0], target: initialNodes[1] }, 
-    { source: initialNodes[0], target: initialNodes[2] },
-    { source: initialNodes[0], target: initialNodes[3] }, 
-    { source: initialNodes[1], target: initialNodes[4] }, 
-    { source: initialNodes[1], target: initialNodes[5] },
-    { source: initialNodes[2], target: initialNodes[6] },
-    { source: initialNodes[3], target: initialNodes[7] },
+        { source: initialNodes[0], target: initialNodes[1] }, 
+        { source: initialNodes[0], target: initialNodes[2] },
+        { source: initialNodes[0], target: initialNodes[3] }, 
+        { source: initialNodes[1], target: initialNodes[4] }, 
+        { source: initialNodes[1], target: initialNodes[5] },
+        { source: initialNodes[2], target: initialNodes[6] },
+        { source: initialNodes[3], target: initialNodes[7] },
     ];
 
+    const initialWeightedEdges = [
+        { source: initialNodes[0], target: initialNodes[1], weight: 2 },
+        { source: initialNodes[0], target: initialNodes[2], weight: 4 },
+        { source: initialNodes[0], target: initialNodes[3], weight: 1 },
+        { source: initialNodes[1], target: initialNodes[4], weight: 7 },
+        { source: initialNodes[1], target: initialNodes[5], weight: 3 },
+        { source: initialNodes[2], target: initialNodes[6], weight: 1 },
+        { source: initialNodes[3], target: initialNodes[7], weight: 5 },
+    ];
+
+    const [edges] = useState(weighted ? initialWeightedEdges : initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [nodes] = useState(initialNodes);
-    const [edges] = useState(initialEdges);
-
     const [startingNode, setStartingNode] = useState(0);
     
     const handleStartNodeChange = (e) => {
@@ -40,22 +48,19 @@ const GraphVisualiser = ({title, algorithm, placeholder}) => {
     };
 
     const checkNode = (nodeId) => {
-        if(isNaN(nodeId)){
+        if (isNaN(nodeId)) {
             return false;
         }
-
         const validNodeIds = initialNodes.map(node => node.id);
         const minNodeId = Math.min(...validNodeIds);
         const maxNodeId = Math.max(...validNodeIds);
 
-        if(nodeId < minNodeId || nodeId > maxNodeId){
-            return false;
-        }
-        return true;
-    }
+        return nodeId >= minNodeId && nodeId <= maxNodeId;
+    };
+
     const handlePlay = () => {
         const startNodeId = parseInt(startingNode, 10);
-        if(!checkNode(startNodeId)){
+        if (!checkNode(startNodeId)) {
             return;
         }
 
@@ -67,29 +72,44 @@ const GraphVisualiser = ({title, algorithm, placeholder}) => {
         });
     };
 
-    return(
+    return (
+        <div>
+            <nav className='alg-nav'>
+                <div className='return-button-div'>
+                    <Link to='/'><button>Return Home</button></Link>
+                </div>
+                <h1 className='alg-title'>{title}</h1>
+            </nav>
 
-    <div>
-        <nav className='alg-nav'>
+            <div className='graph-element'>
+                <Graph nodes={nodes} edges={edges} highlightedNodes={highlightedNodes} />
+            </div>
+            <div className='node-input-container'>
+                <p>Starting Node:</p>
+                <input
+                    type='text'
+                    id='start-node'
+                    placeholder={placeholder}
+                    value={startingNode}
+                    onChange={handleStartNodeChange}
+                />
+            </div>
 
-        <div className='return-button-div'>
-            <Link to='/'><button>Return Home</button></Link>
+            <Controls onPlay={handlePlay} onPause={() => {}} onReset={() => setHighlightedNodes([])} />
         </div>
+    );
+};
 
-        <h1 className='alg-title'>{title}</h1>
-        </nav>
-
-        <div className='graph-elemenet'>
-            <Graph nodes={nodes} edges={edges} highlightedNodes={highlightedNodes} />
-        </div>
-        <div className='node-input-container'>
-            <p>Starting Node:</p>
-            <input type='text' id='start-node' placeholder={placeholder} value={startingNode} onChange={handleStartNodeChange}></input>
-        </div>
-
-        <Controls onPlay={handlePlay} onPause={() => {}} onReset={() => setHighlightedNodes([])}/>
-    </div>
-    )
-
-}
 export default GraphVisualiser;
+
+GraphVisualiser.propTypes = {
+    title: PropTypes.string.isRequired,
+    algorithm: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    weighted: PropTypes.bool
+};
+
+GraphVisualiser.defaultProps = {
+    placeholder: '0',
+    weighted: false
+};

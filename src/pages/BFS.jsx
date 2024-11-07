@@ -8,6 +8,7 @@ const BFS = () => {
         title="BFS Visualiser"
         algorithm={bfsAlgorithm}
         placeholder="0"
+        weighted={false}
         />
     )
 }

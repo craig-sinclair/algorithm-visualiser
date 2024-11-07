@@ -8,6 +8,7 @@ const DFS = () => {
         title="DFS Visualiser"
         algorithm={dfsAlgorithm}
         placeholder="0"
+        weighted={false}
         />
     )
 
