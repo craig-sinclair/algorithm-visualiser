@@ -1,15 +1,27 @@
-.title-container{
+.title-container {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    margin-top:2em;
+    padding-left: 20px; 
 }
 
-.buttons-container{
+.algorithm-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:2em;
+}
+
+.buttons-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
+    margin-left: 0; 
 }
