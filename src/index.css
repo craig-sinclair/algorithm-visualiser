@@ -47,3 +47,11 @@ button:hover {
   border-color: #646cff;
 }
 
+.line-break{
+  white-space: pre-line;
+}
+.error-message{
+  color:red;
+  font-size: 1.1em;
+  margin-top: 5px;
+}

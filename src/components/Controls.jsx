@@ -1,4 +1,3 @@
-import React from 'react'
 import '../pages/algorithms.css'
 
 const Controls = ({ onPlay, onPause, onReset }) => (

@@ -1,4 +1,3 @@
-import React from 'react';
 import GraphVisualiser from '../components/Visualiser';
 import { dfsAlgorithm } from '../utils/dfsAlgorithm';
 
