@@ -13,7 +13,7 @@ const HomePage = () => {
                     <div className='buttons-container'>
                         <Link to='/bfs'><button>Breadth-First Search (BFS)</button></Link>
                         <Link to='/dfs'><button>Depth-First Search (DFS)</button></Link>
-                        <Link to='/bfs'><button>Dijkstra's Algorithm</button></Link>
+                        <Link to='/djk'><button>Dijkstra's Algorithm</button></Link>
                         <Link to='/bfs'><button>Prim-Jarnik Algorithm</button></Link>
                     </div>
                 </div>

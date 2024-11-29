@@ -3,16 +3,17 @@ export const bfsAlgorithm = (nodes, edges, startNodeId) => {
     const visitedNodes = new Set();
     const steps = [];
 
-    while(queue.length){
-        const node = queue.shift();
-        if(!visitedNodes.has(node)){
-            visitedNodes.add(node);
-            steps.push([...visitedNodes]);
-            
-            const neighbours = edges
-                .filter(edge => edge.source.id === node || edge.target.id === node)
-                .map(edge => (edge.source.id === node ? edge.target.id : edge.source.id));
-            queue.push(...neighbours);
+    while (queue.length) {
+        const currentNode = queue.shift();
+        if (!visitedNodes.has(currentNode)) {
+            visitedNodes.add(currentNode);
+            steps.push({ visitedNodes: Array.from(visitedNodes) });
+
+            const neighbors = edges
+                .filter(edge => edge.source.id === currentNode || edge.target.id === currentNode)
+                .map(edge => (edge.source.id === currentNode ? edge.target.id : edge.source.id));
+
+            queue.push(...neighbors.filter(neighbor => !visitedNodes.has(neighbor)));
         }
     }
     return steps;

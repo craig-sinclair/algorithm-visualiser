@@ -3,30 +3,23 @@ export const dfsAlgorithm = (nodes, edges, startingNode) => {
     const visitedNodes = new Set();
     const steps = [];
 
-    while(stack.length){
-        const node = stack.pop()
+    while (stack.length) {
+        const currentNode = stack.pop();
 
-        if(!visitedNodes.has(node)){
-            visitedNodes.add(node);
-            steps.push([...visitedNodes]);
+        if (!visitedNodes.has(currentNode)) {
+            visitedNodes.add(currentNode);
+            steps.push({ visitedNodes: Array.from(visitedNodes) });
 
-            let neighbours = []
-            edges.forEach(edge => {
-                if (edge.source.id === node){
-                    neighbours.push(edge.target.id);
-                }
-                else if (edge.target.id === node){
-                    neighbours.push(edge.source.id);
-                }
-            });
+            const neighbors = edges
+                .filter(edge => edge.source.id === currentNode || edge.target.id === currentNode)
+                .map(edge => (edge.source.id === currentNode ? edge.target.id : edge.source.id));
 
-            neighbours.forEach(neighbour => {
-                if(!visitedNodes.has(neighbour)){
-                    stack.push(neighbour);
+            neighbors.forEach(neighbor => {
+                if (!visitedNodes.has(neighbor)) {
+                    stack.push(neighbor);
                 }
             });
         }
-
     }
     return steps;
 };

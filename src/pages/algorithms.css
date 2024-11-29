@@ -15,8 +15,8 @@ input{
     border: 1px solid #333;
     border-radius:10px;
     background-color: #1a1a1a;
-
 }
+
 .return-button-div{
     display: flex;
     align-items: flex-start;
@@ -233,4 +233,48 @@ nav{
 .small-button {
     padding: 0.5em 1em;
     font-size: 1em;
+}
+
+.table-container {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #282c34;
+    color: white;
+    max-width: 800px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #444;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #333;
+}
+
+.graph-and-table-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2em;
+    margin-top: 20px;
+}
+
+.table-container {
+    overflow-y: auto;
 }

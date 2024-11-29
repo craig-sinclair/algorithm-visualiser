@@ -1,6 +1,6 @@
-export const kmpAlgorithm = (input, findAllMatches = false) => {
+export const kmpAlgorithm = (input) => {
     const [text, pattern] = input.split('|');
-    if (!text || !pattern) return []; // Return empty if input is invalid
+    if (!text || !pattern) return []; 
 
     const m = pattern.length;
     const n = text.length;
@@ -34,7 +34,7 @@ export const kmpAlgorithm = (input, findAllMatches = false) => {
     }
 
     // Step 2: KMP Search
-    let j = 0; // Pointer in the pattern
+    let j = 0; 
     for (let i = 0; i < n; i++) {
         while (j > 0 && text[i] !== pattern[j]) {
             steps.push({
@@ -51,7 +51,7 @@ export const kmpAlgorithm = (input, findAllMatches = false) => {
         }
         if (text[i] === pattern[j]) {
             steps.push({
-                description: `Match at text[${i}] and pattern[${j}]. Complete!`,
+                description: `Match at text[${i}] and pattern[${j}].`,
                 data: {
                     textIndex: i,
                     patternIndex: j,
@@ -72,8 +72,7 @@ export const kmpAlgorithm = (input, findAllMatches = false) => {
                     patternIndex: j - 1,
                 },
             });
-            if (!findAllMatches) break; 
-            j = border[j - 1]; 
+            break; 
         }
     }
 

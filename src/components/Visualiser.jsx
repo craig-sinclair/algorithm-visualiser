@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../pages/home.css';
@@ -8,8 +8,8 @@ import '../pages/algorithms.css';
 
 const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
     const initialNodes = [
-        { id: 0, x: 300, y: 50 },    
-        { id: 1, x: 150, y: 200 },   
+        { id: 0, x: 300, y: 50 },
+        { id: 1, x: 150, y: 200 },
         { id: 2, x: 300, y: 200 },
         { id: 3, x: 450, y: 200 },
         { id: 4, x: 50, y: 350 },
@@ -19,10 +19,10 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
     ];
 
     const initialEdges = [
-        { source: initialNodes[0], target: initialNodes[1] }, 
+        { source: initialNodes[0], target: initialNodes[1] },
         { source: initialNodes[0], target: initialNodes[2] },
-        { source: initialNodes[0], target: initialNodes[3] }, 
-        { source: initialNodes[1], target: initialNodes[4] }, 
+        { source: initialNodes[0], target: initialNodes[3] },
+        { source: initialNodes[1], target: initialNodes[4] },
         { source: initialNodes[1], target: initialNodes[5] },
         { source: initialNodes[2], target: initialNodes[6] },
         { source: initialNodes[3], target: initialNodes[7] },
@@ -41,9 +41,12 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
     const [edges] = useState(weighted ? initialWeightedEdges : initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [nodes] = useState(initialNodes);
-    const [startingNode, setStartingNode] = useState(0);   
-    const timeoutIds = useRef([]); 
-    
+    const [startingNode, setStartingNode] = useState(0);
+    const [steps, setSteps] = useState([]);
+    const [currentStep, setCurrentStep] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const timeoutIds = useRef([]);
+
     const handleStartNodeChange = (e) => {
         setStartingNode(e.target.value);
     };
@@ -60,52 +63,74 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
     };
 
     const handlePlay = () => {
-        const startNodeId = parseInt(startingNode, 10);
-        if (!checkNode(startNodeId)) {
-            return;
-        }
+        if (isPlaying || steps.length === 0 || currentStep >= steps.length) return;
+        setIsPlaying(true);
 
-        const steps = algorithm(nodes, edges, startNodeId);
-
-        steps.forEach((step, index) => {
+        for (let i = currentStep; i < steps.length; i++) {
             const timeoutId = setTimeout(() => {
-                setHighlightedNodes(step);
-            }, index * 1000);
-            
-            timeoutIds.current.push(timeoutId); 
-        });
+                setHighlightedNodes(steps[i].visitedNodes);
+                setCurrentStep(i + 1);
+
+                if (i === steps.length - 1) {
+                    setIsPlaying(false);
+                }
+            }, (i - currentStep) * 1000);
+
+            timeoutIds.current.push(timeoutId);
+        }
+    };
+
+    const handlePause = () => {
+        setIsPlaying(false);
+        timeoutIds.current.forEach(timeoutId => clearTimeout(timeoutId));
+        timeoutIds.current = [];
     };
 
     const handleReset = () => {
         timeoutIds.current.forEach(timeoutId => clearTimeout(timeoutId));
-        timeoutIds.current = []; 
-        setHighlightedNodes([]); 
+        timeoutIds.current = [];
+        setHighlightedNodes([]);
+        setCurrentStep(0);
+        setIsPlaying(false);
     };
+
+    useEffect(() => {
+        const startNodeId = parseInt(startingNode, 10);
+        if (checkNode(startNodeId)) {
+            const generatedSteps = algorithm(nodes, edges, startNodeId);
+            setSteps(generatedSteps);
+            setCurrentStep(0); // Reset step index when new steps are generated
+        } else {
+            setSteps([]);
+        }
+    }, [startingNode, nodes, edges, algorithm]);
 
     return (
         <div>
-            <nav className='alg-nav'>
-                <div className='return-button-div'>
-                    <Link to='/'><button>Return Home</button></Link>
+            <nav className="alg-nav">
+                <div className="return-button-div">
+                    <Link to="/">
+                        <button className="small-button">Return Home</button>
+                    </Link>
                 </div>
-                <h1 className='alg-title'>{title}</h1>
+                <h1 className="alg-title">{title}</h1>
             </nav>
 
-            <div className='graph-element'>
+            <div className="graph-element">
                 <Graph nodes={nodes} edges={edges} highlightedNodes={highlightedNodes} />
             </div>
-            <div className='node-input-container'>
+            <div className="node-input-container">
                 <p>Starting Node:</p>
                 <input
-                    type='text'
-                    id='start-node'
+                    type="text"
+                    id="start-node"
                     placeholder={placeholder}
                     value={startingNode}
                     onChange={handleStartNodeChange}
                 />
             </div>
 
-            <Controls onPlay={handlePlay} onPause={() => {}} onReset={handleReset} />
+            <Controls onPlay={handlePlay} onPause={handlePause} onReset={handleReset} />
         </div>
     );
 };
@@ -114,12 +139,12 @@ GraphVisualiser.propTypes = {
     title: PropTypes.string.isRequired,
     algorithm: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
-    weighted: PropTypes.bool
+    weighted: PropTypes.bool,
 };
 
 GraphVisualiser.defaultProps = {
     placeholder: '0',
-    weighted: false
+    weighted: false,
 };
 
 export default GraphVisualiser;

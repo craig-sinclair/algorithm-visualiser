@@ -3,12 +3,15 @@ import { bfsAlgorithm } from '../utils/bfsAlgorithm';
 
 const BFS = () => {
     return(
-        <GraphVisualiser
-        title="BFS Visualiser"
-        algorithm={bfsAlgorithm}
-        placeholder="0"
-        weighted={false}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <GraphVisualiser
+            title="BFS Visualiser"
+            algorithm={bfsAlgorithm}
+            placeholder="0"
+            weighted={false}
+            />
+        </div>
+
     )
 }
 export default BFS;
