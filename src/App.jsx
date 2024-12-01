@@ -6,6 +6,7 @@ import BFS from './pages/BFS';
 import DFS from './pages/DFS';
 import KMP from './pages/KMP';
 import Dijkstra from './pages/Dijkstra';
+import PrimJarnik from './pages/PrimJarnik';
 
 const App = () => (
   <Router>
@@ -15,6 +16,7 @@ const App = () => (
       <Route path="/dfs" element={<DFS />} />
       <Route path="/kmp" element={<KMP/>}/>
       <Route path="/djk" element={<Dijkstra />}/>
+      <Route path='/prim' element={<PrimJarnik/>}/>
     </Routes>
   </Router>
 );

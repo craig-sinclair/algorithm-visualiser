@@ -99,7 +99,7 @@ const GraphVisualiser = ({ title, algorithm, placeholder, weighted }) => {
         if (checkNode(startNodeId)) {
             const generatedSteps = algorithm(nodes, edges, startNodeId);
             setSteps(generatedSteps);
-            setCurrentStep(0); // Reset step index when new steps are generated
+            setCurrentStep(0); 
         } else {
             setSteps([]);
         }

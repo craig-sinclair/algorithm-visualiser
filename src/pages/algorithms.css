@@ -237,12 +237,16 @@ nav{
 
 .table-container {
     margin-top: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #333;
+    border-radius: 10px;
     padding: 10px;
     background-color: #282c34;
     color: white;
     max-width: 800px;
+}
+
+.table-container h2{
+    margin-top: 0;
 }
 
 table {
@@ -277,4 +281,10 @@ tr:nth-child(even) {
 
 .table-container {
     overflow-y: auto;
+}
+
+.graph-element {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
